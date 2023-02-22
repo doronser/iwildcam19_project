@@ -1,0 +1,60 @@
+name: "efficientnet_v2_weighted_loss"
+ckpt_path: "/home/doronser/storage/iwildcam19_project/ckpts/"
+
+data:
+#  dir: "/raid/data/users/doronser/iwildcam"
+  dir: "/home/doronser/data/iwildcam19"
+  batch_size: 32
+  num_workers: 8
+  val_split_size: 0.1
+  augmentations:
+    CLAHE:
+      p: 1
+      clip_limit: 4.0
+      tile_grid_size:
+        - 4
+        - 4
+    HorizontalFlip:
+      p: 0.5
+    ShiftScaleRotate:
+      p: 0.5
+      shift_limit: 0.05
+      scale_limit: 0.05
+      rotate_limit: 10
+
+#    RandomBrightnessContrast:
+    ToGray:
+      p: 0.5
+#    Normalize:
+#      mean:
+#        - .485
+#        - .456
+#        - .406
+#      std:
+#        - .229
+#        - .224
+#        - .225
+loss:
+  weighted: true
+
+model:
+    name: 'efficientnet_v2' # convnext, mobilenet_v3, efficientnet_v2
+    num_classes: 23
+    pretrained: true
+
+trainer:
+  epochs: 20
+  gpu: 1
+
+optimizer:
+  name: 'Adam'
+  lr: 3.e-4
+  weight_decay: 5.e-5
+  eps: 1.e-8
+
+scheduler:
+#  name: 'CosineAnnealingLR'
+#  T_max: 5.
+#  eta_min: 1.e-6
+  name: 'ExponentialLR'
+  gamma: 0.95
