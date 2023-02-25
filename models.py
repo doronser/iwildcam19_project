@@ -52,7 +52,7 @@ def build_model(name: Literal['convnext', 'mobilenet_v3', 'efficientnet_v2'], pr
     if name == 'convnext':
         model_func = torchvision.models.convnext_tiny
     elif name == 'mobilenet_v3':
-        model_func = torchvision.models.convnext_tiny
+        model_func = torchvision.models.mobilenet_v3_small
     else:  # efficientnet_v2
         model_func = torchvision.models.efficientnet_v2_s
 
